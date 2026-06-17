@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dados Cadastrais</title>
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+/* =====================================
+   RESET
+===================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#02071B;
+    overflow:hidden;
+    position:relative;
+}
+
+/* =====================================
+   FUNDO ESQUERDO
+===================================== */
+
+.left-bg{
+    position:fixed;
+    left:0;
+    top:0;
+
+    width:25%;
+    min-width:280px;
+    height:100vh;
+
+    background:#180046;
+
+    border-radius:0 0 40px 0;
+}
+
+/* =====================================
+   CÍRCULO DIREITO
+===================================== */
+
+.right-circle{
+
+    position:fixed;
+
+    width:700px;
+    height:700px;
+
+    border-radius:50%;
+
+    border:90px solid #6657ff;
+
+    right:-300px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    filter:drop-shadow(0 0 12px #0077ff);
+}
+
+/* =====================================
+   CONTAINER
+===================================== */
+
+.container{
+
+    width:min(1200px,90%);
+    min-height:100vh;
+
+    margin:auto;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+}
+
+/* =====================================
+   CARD
+===================================== */
+
+.card{
+
+    width:100%;
+    max-width:1100px;
+
+    min-height:610px;
+
+    background:#1f1f1f;
+
+    border-radius:8px;
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+}
+
+/* =====================================
+   STEPPER
+===================================== */
+
+.stepper{
+
+    position:absolute;
+
+    left:-180px;
+    top:50%;
+
+    transform:translateY(-50%);
+}
+
+.stepper::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:174px;
+    top:70px;
+
+    width:4px;
+    height:120px;
+
+    background:#8f00ff;
+}
+
+.step{
+
+    display:flex;
+    align-items:center;
+
+    margin-bottom:50px;
+}
+
+.step span{
+
+    width:140px;
+
+    text-align:right;
+
+    color:#d4d4d4;
+
+    margin-right:12px;
+}
+
+.circle{
+
+    width:70px;
+    height:70px;
+
+    border-radius:50%;
+
+    background:#ECECEC;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:30px;
+    color:#555;
+}
+
+.active{
+
+    border:5px solid #6257ff;
+
+    box-shadow:0 0 15px rgba(98,87,255,.7);
+}
+
+/* =====================================
+   FORM
+===================================== */
+
+.form-area{
+
+    width:min(560px,85%);
+    margin:auto;
+}
+
+.form-group{
+
+    margin-bottom:25px;
+}
+
+.form-group label{
+
+    display:block;
+
+    color:#d9d9d9;
+
+    margin-bottom:8px;
+
+    font-size:18px;
+}
+
+.form-group input{
+
+    width:100%;
+    height:50px;
+
+    border:none;
+    outline:none;
+
+    border-radius:8px;
+
+    background:#ececec;
+
+    padding:0 15px;
+
+    font-size:16px;
+}
+
+/* =====================================
+   INPUT SENHA
+===================================== */
+
+.password-wrapper{
+
+    position:relative;
+}
+
+.password-wrapper i{
+
+    position:absolute;
+
+    right:18px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#777;
+    cursor:pointer;
+}
+
+/* =====================================
+   ERRO
+===================================== */
+
+.erro{
+
+    display:none;
+
+    background:#a11a1a;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:6px;
+
+    margin-bottom:20px;
+}
+
+/* =====================================
+   BOTÕES
+===================================== */
+
+.buttons{
+
+    display:flex;
+    justify-content:flex-end;
+    gap:20px;
+
+    margin-top:30px;
+}
+
+.btn-voltar{
+
+    width:130px;
+    height:45px;
+
+    border:1px solid #8f00ff;
+
+    background:transparent;
+
+    color:#8f00ff;
+
+    border-radius:6px;
+
+    cursor:pointer;
+}
+
+.btn-proximo{
+
+    width:140px;
+    height:45px;
+
+    border:none;
+
+    border-radius:6px;
+
+    color:white;
+
+    cursor:pointer;
+
+    background:linear-gradient(
+    90deg,
+    #7b00ff,
+    #bb00ff
+    );
+}
+
+/* =====================================
+   RESPONSIVO
+===================================== */
+
+@media(max-width:900px){
+
+    .stepper{
+        display:none;
+    }
+
+    .card{
+        padding:40px 0;
+    }
+
+    .right-circle{
+        width:500px;
+        height:500px;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<!-- FUNDO -->
+<div class="left-bg"></div>
+<div class="right-circle"></div>
+
+<!-- CONTAINER -->
+<div class="container">
+
+    <div class="card">
+
+        <!-- STEPPER -->
+        <div class="stepper">
+
+            <div class="step">
+                <span>Dados Pessoais</span>
+                <div class="circle">1</div>
+            </div>
+
+            <div class="step">
+                <span>Dados Cadastrais</span>
+                <div class="circle active">2</div>
+            </div>
+
+        </div>
+
+        <!-- FORM -->
+        <div class="form-area">
+
+            <div class="erro" id="erro"></div>
+
+            <form id="formCadastro">
+
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input
+                        type="email"
+                        id="email">
+                </div>
+
+                <div class="form-group">
+                    <label>Número de telefone</label>
+                    <input
+                        type="tel"
+                        id="telefone">
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+
+                    <div class="password-wrapper">
+                        <input
+                            type="password"
+                            id="senha">
+
+                        <i class="fa-solid fa-eye-slash toggle"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirme sua senha</label>
+
+                    <div class="password-wrapper">
+                        <input
+                            type="password"
+                            id="confirmarSenha">
+
+                        <i class="fa-solid fa-eye-slash toggle"></i>
+                    </div>
+                </div>
+
+                <div class="buttons">
+
+                    <button
+                        type="button"
+                        class="btn-voltar"
+                        onclick="history.back()">
+
+                        VOLTAR
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn-proximo">
+
+                        PRÓXIMO
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =====================================
+   MOSTRAR SENHA
+===================================== */
+
+document.querySelectorAll(".toggle")
+.forEach(icon => {
+
+    icon.addEventListener("click", () => {
+
+        const input =
+        icon.previousElementSibling;
+
+        if(input.type === "password"){
+
+            input.type = "text";
+
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+
+        }else{
+
+            input.type = "password";
+
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        }
+    });
+
+});
+
+/* =====================================
+   VALIDAÇÃO
+===================================== */
+
+const form =
+document.getElementById("formCadastro");
+
+const erro =
+document.getElementById("erro");
+
+form.addEventListener("submit", e => {
+
+    e.preventDefault();
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    const telefone =
+    document.getElementById("telefone").value.trim();
+
+    const senha =
+    document.getElementById("senha").value.trim();
+
+    const confirmar =
+    document.getElementById("confirmarSenha").value.trim();
+
+    erro.style.display = "none";
+
+    if(
+        !email ||
+        !telefone ||
+        !senha ||
+        !confirmar
+    ){
+
+        erro.style.display = "block";
+        erro.innerText =
+        "Preencha todos os campos.";
+
+        return;
+    }
+
+    if(senha.length < 8){
+
+        erro.style.display = "block";
+        erro.innerText =
+        "A senha deve ter no mínimo 8 caracteres.";
+
+        return;
+    }
+
+    if(senha !== confirmar){
+
+        erro.style.display = "block";
+        erro.innerText =
+        "As senhas não coincidem.";
+
+        return;
+    }
+
+    // Recuperar dados do cadastro01
+    const nomeData = sessionStorage.getItem('cadastro_nome');
+    const usuarioData = sessionStorage.getItem('cadastro_usuario');
+    const emailData = sessionStorage.getItem('cadastro_email');
+    
+    if (!nomeData || !usuarioData || !emailData) {
+        erro.style.display = "block";
+        erro.innerText = "Erro: dados do cadastro anterior não encontrados. Comece novamente.";
+        return;
+    }
+
+    // Enviar para backend
+    const formData = new FormData();
+    formData.append('action', 'cadastro');
+    formData.append('nome', nomeData);
+    formData.append('usuario', usuarioData);
+    formData.append('email', emailData);
+    formData.append('telefone', telefone);
+    formData.append('senha', senha);
+    formData.append('confirmarSenha', confirmar);
+
+    try {
+        const response = await fetch('../../Backend/auth.php', {
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+        });
+
+        const resultado = await response.json();
+
+        if (resultado.erro) {
+            erro.style.display = "block";
+            erro.innerText = resultado.erro;
+        } else if (resultado.sucesso) {
+            // Cadastro bem-sucedido
+            sessionStorage.clear();
+            window.location.href = "login.html";
+        }
+    } catch (e) {
+        erro.style.display = "block";
+        erro.innerText = "Erro de conexão: " + e.message;
+    }
+
+});
+
+</script>
+
+</body>
+</html>

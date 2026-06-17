@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Commita</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #02081c;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .left-bg {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 25%;
+            min-width: 280px;
+            height: 100vh;
+            background: #180046;
+            border-radius: 0 0 40px 0;
+        }
+
+        .right-circle {
+            position: fixed;
+            right: -300px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            border: 90px solid #6757ff;
+            filter: drop-shadow(0 0 15px #0077ff);
+        }
+
+        .container {
+            width: min(1200px, 90%);
+            min-height: 100vh;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 500px;
+            background: #1f1f1f;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+            padding: 40px;
+            position: relative;
+        }
+
+        .card h1 {
+            color: #fff;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #d8d8d8;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 45px;
+            border: none;
+            outline: none;
+            border-radius: 8px;
+            background: #ececec;
+            padding: 0 15px;
+            font-size: 14px;
+        }
+
+        .erro {
+            display: none;
+            background: #a11515;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .sucesso {
+            display: none;
+            background: #15a115;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            width: 100%;
+            height: 45px;
+            border: none;
+            border-radius: 6px;
+            background: #4f18ff;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #3d0fe0;
+        }
+
+        .btn-cadastro {
+            background: transparent;
+            border: 1px solid #4f18ff;
+            color: #4f18ff;
+        }
+
+        .btn-cadastro:hover {
+            background: #4f18ff;
+            color: white;
+        }
+
+        .link-cadastro {
+            text-align: center;
+            margin-top: 20px;
+            color: #999;
+        }
+
+        .link-cadastro a {
+            color: #8f00ff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .link-cadastro a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            .left-bg {
+                width: 180px;
+            }
+
+            .right-circle {
+                width: 500px;
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="left-bg"></div>
+    <div class="right-circle"></div>
+
+    <div class="container">
+        <div class="card">
+            <h1>LOGIN</h1>
+
+            <div class="erro" id="erro"></div>
+            <div class="sucesso" id="sucesso"></div>
+
+            <form id="formLogin">
+                <div class="form-group">
+                    <label>Usuário ou E-mail</label>
+                    <input type="text" id="usuario" placeholder="Digite seu usuário ou e-mail" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="senha" placeholder="Digite sua senha" required>
+                </div>
+
+                <div class="buttons">
+                    <button type="submit">ENTRAR</button>
+                    <button type="button" class="btn-cadastro" onclick="window.location.href='cadastrar01.html'">
+                        CRIAR CONTA
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script>
+        const form = document.getElementById('formLogin');
+        const erro = document.getElementById('erro');
+        const sucesso = document.getElementById('sucesso');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const usuario = document.getElementById('usuario').value.trim();
+            const senha = document.getElementById('senha').value.trim();
+
+            erro.style.display = 'none';
+            sucesso.style.display = 'none';
+
+            if (!usuario || !senha) {
+                erro.style.display = 'block';
+                erro.textContent = 'Preencha todos os campos.';
+                return;
+            }
+
+            // Fazer login
+            const resultado = await API.login(usuario, senha);
+
+            if (resultado.erro) {
+                erro.style.display = 'block';
+                erro.textContent = resultado.erro;
+            } else if (resultado.sucesso) {
+                sucesso.style.display = 'block';
+                sucesso.textContent = resultado.mensagem;
+                
+                setTimeout(() => {
+                    window.location.href = 'feed.html';
+                }, 1500);
+            }
+        });
+
+        // Verificar se já está logado
+        window.addEventListener('load', async () => {
+            const sessao = await API.verificarSessao();
+            if (sessao.logado) {
+                window.location.href = 'feed.html';
+            }
+        });
+    </script>
+
+</body>
+</html>

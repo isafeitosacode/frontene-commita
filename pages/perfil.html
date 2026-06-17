@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commita - Perfil</title>
+  <script src="../js/config.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/perfil.css">
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <span class="logo-icon"><i class="fas fa-code-branch"></i></span>
+      <span>Commita</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="feed.html"><i class="fas fa-home"></i> <span>Feed</span></a>
+      <a href="forum.html"><i class="fas fa-users"></i> <span>Fóruns</span></a>
+      <a href="perfil.html" class="active"><i class="fas fa-user"></i> <span>Perfil</span></a>
+    </nav>
+  </header>
+
+  <main class="container">
+    
+    <section class="profile-card">
+      <div class="cover"></div>
+
+      <div class="profile-info">
+        <div class="avatar-area">
+          <div class="avatar-wrapper">
+            <img id="avatarPreview" src="" alt="Foto de perfil">
+            <label title="Trocar foto (Em breve)" style="cursor: not-allowed; opacity: 0.7;">
+              <i class="fas fa-camera"></i>
+            </label>
+          </div>
+
+          <div class="profile-name">
+            <h1 id="previewName">Carregando...</h1>
+            <p id="previewUsername">@carregando</p>
+          </div>
+        </div>
+
+        <p class="bio" id="previewBio">
+          Adicione uma bio para que a comunidade te conheça melhor.
+        </p>
+
+        <div class="stats">
+          <div class="stat">
+            <strong id="statContribuicoes">0</strong>
+            <span>Contribuições</span>
+          </div>
+          <div class="stat">
+            <strong id="statSeguidores">0</strong>
+            <span>Seguidores</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="edit-card">
+      <div class="card-header">
+        <h2><i class="fas fa-pen"></i> Editar Perfil</h2>
+      </div>
+
+      <form class="form" id="profileForm">
+        <div class="form-row">
+          <div class="field">
+            <label>Nome</label>
+            <input type="text" id="name" required>
+          </div>
+
+          <div class="field">
+            <label>Usuário</label>
+            <input type="text" id="username" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>E-mail (Não pode ser alterado)</label>
+            <input type="email" id="email" disabled style="opacity: 0.6; cursor: not-allowed;">
+          </div>
+
+          <div class="field">
+            <label>Telefone</label>
+            <input type="text" id="phone" placeholder="(00) 00000-0000">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Bio</label>
+          <textarea id="bio" placeholder="Conte um pouco sobre você e seus conhecimentos em tecnologia..."></textarea>
+        </div>
+
+        <button class="btn" type="submit" id="btnSalvarPerfil">
+          <i class="fas fa-save"></i> Salvar Alterações
+        </button>
+      </form>
+    </section>
+
+    <section class="edit-card">
+      <div class="card-header">
+        <h2><i class="fas fa-lock"></i> Segurança</h2>
+      </div>
+
+      <form class="form" id="passwordForm">
+        <div class="form-row">
+          <div class="field">
+            <label>Nova senha</label>
+            <input type="password" id="password" required>
+          </div>
+
+          <div class="field">
+            <label>Confirmar senha</label>
+            <input type="password" id="confirmPassword" required>
+          </div>
+        </div>
+
+        <button class="btn" type="submit">
+          <i class="fas fa-key"></i> Alterar Senha
+        </button>
+      </form>
+    </section>
+
+    <section class="danger-card">
+      <div class="card-header">
+        <h2><i class="fas fa-triangle-exclamation"></i> Zona de Perigo</h2>
+      </div>
+
+      <div class="danger-content">
+        <p>Excluir sua conta removerá seu perfil, posts e comentários permanentemente. Esta ação não pode ser desfeita.</p>
+
+        <button class="btn btn-danger" id="deleteAccount">
+          <i class="fas fa-trash"></i> Excluir Conta
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="../js/perfil.js"></script>
+</body>
+</html>

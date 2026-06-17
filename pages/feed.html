@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commita - Feed de Colaboração</title>
+    <script src="../js/config.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/feed.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon"><i class="fas fa-code-branch"></i></span>
+                <span class="logo-text">Commita</span>
+            </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="globalSearch" placeholder="Buscar projetos, fóruns ou colegas...">
+            </div>
+            <nav class="nav-links">
+                <a href="#" class="active"><i class="fas fa-home"></i> <span>Feed</span></a>
+                <a href="forum.html"><i class="fas fa-users"></i> <span>Fóruns</span></a>
+                <a href="#"><i class="fas fa-trophy"></i> <span>Ranking</span></a>
+                <div class="user-profile-nav">
+                    <img class="user-avatar" id="navAvatar" src="" alt="Perfil" style="cursor: pointer;">
+                </div>
+            </nav>
+            <div id="userMenu" style="display: none; position: absolute; top: 60px; right: 20px; background: #1a1a1a; border: 1px solid #2d3436; border-radius: 8px; padding: 10px 0; min-width: 150px; z-index: 1001;">
+                <a href="perfil.html" style="display: block; padding: 10px 15px; color: #b2bec3; text-decoration: none;">👤 Perfil</a>
+                <a href="#" id="btnSair" style="display: block; padding: 10px 15px; color: #b2bec3; text-decoration: none; border-top: 1px solid #2d3436;">🚪 Sair</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content container">
+        <aside class="sidebar-left">
+            <div class="card profile-card">
+                <div class="profile-header"></div>
+                <div class="profile-info">
+                    <img id="profileAvatar" src="" alt="Avatar" class="profile-avatar">
+                    <h3 id="profileName">Carregando...</h3>
+                    <p id="profileSubtitle">Membro da Comunidade</p>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat" style="border: none;">
+                        <span class="stat-value" id="statContribuicoes">0</span>
+                        <span class="stat-label">Contribuições</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card menu-card">
+                <ul>
+                    <li><a href="#"><i class="fas fa-bookmark"></i> Salvos</a></li>
+                    <li><a href="#" id="menuMeusCommits"><i class="fas fa-code-branch"></i> Meus Commits</a></li>
+                    <li><a href="../calendario.html"><i class="fas fa-calendar-alt"></i> Eventos</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <section class="feed">
+            <div class="card create-post">
+                <div class="post-input-container" style="align-items: flex-start;">
+                    <img id="postAvatar" src="" alt="Avatar" class="mini-avatar">
+                    <button class="attachment-btn" id="btnAttachment" title="Anexar arquivo, foto ou vídeo" style="margin-top: 8px; background:none; border:none; color:var(--primary-blue); cursor:pointer;">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <input type="file" id="fileUpload" style="display: none;" multiple>
+                    <textarea id="newPostContent" class="post-trigger" placeholder="Compartilhe seu novo projeto ou dúvida..." style="width: 100%; resize: none; min-height: 60px; outline: none; color: white; background-color: #2d3436; border: 1px solid #2d3436; border-radius: 15px; padding: 12px 20px;"></textarea>
+                </div>
+                <div class="post-tags-selector" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+                    <div style="display: flex; gap: 15px;">
+                        <label><input type="radio" name="postTag" value="Projeto"> Projeto</label>
+                        <label><input type="radio" name="postTag" value="Snippet" checked> Snippet</label>
+                        <label><input type="radio" name="postTag" value="Dúvida"> Dúvida</label>
+                    </div>
+                    <button id="btnSubmitPost" style="background: linear-gradient(45deg, #6c5ce7, #00d2ff); color: white; border: none; padding: 8px 24px; border-radius: 20px; cursor: pointer; font-weight: bold;">Commitar</button>
+                </div>
+            </div>
+
+            <div id="posts-container">
+                <p style="text-align: center; color: #b2bec3; padding: 20px;">Carregando o feed...</p>
+            </div>
+        </section>
+
+        <aside class="sidebar-right">
+            <div class="card ranking-card">
+                <h3><i class="fas fa-crown" style="color: #feca57;"></i> Top Colaboradores</h3>
+                <ul class="ranking-list">
+                    <p style="text-align: center; color: var(--text-gray); font-size: 13px;">Carregando ranking...</p>
+                </ul>
+                <a href="#" class="view-all">Ver ranking completo</a>
+            </div>
+
+            <div class="card suggestions-card">
+                <h3>Fóruns Sugeridos</h3>
+                <ul class="suggestion-list" id="suggestedForumsList">
+                    <p style="text-align: center; color: var(--text-gray); font-size: 13px;">Carregando...</p>
+                </ul>
+            </div>
+        </aside>
+    </main>
+
+    <script src="../js/feed.js"></script>
+</body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commita - Perfil</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-purple: #6c5ce7;
+      --light-purple: #a29bfe;
+      --primary-blue: #00d2ff;
+      --dark-bg: #0f0f0f;
+      --card-bg: #1a1a1a;
+      --text-white: #ffffff;
+      --text-gray: #b2bec3;
+      --border-color: #2d3436;
+      --danger: #ff4757;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--text-white);
+    }
+
+    .navbar {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo-icon {
+      background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-gray);
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary-purple);
+    }
+
+    .container {
+      max-width: 1050px;
+      margin: 25px auto;
+      padding: 0 20px;
+    }
+
+    .profile-card,
+    .edit-card,
+    .danger-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .cover {
+      height: 180px;
+      background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+    }
+
+    .profile-info {
+      padding: 0 28px 28px;
+      position: relative;
+    }
+
+    .avatar-area {
+      margin-top: -55px;
+      display: flex;
+      align-items: end;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 115px;
+      height: 115px;
+    }
+
+    .avatar-wrapper img {
+      width: 115px;
+      height: 115px;
+      border-radius: 50%;
+      border: 5px solid var(--card-bg);
+      object-fit: cover;
+      background: #2d3436;
+    }
+
+    .avatar-wrapper label {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: var(--primary-purple);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      border: 2px solid var(--card-bg);
+    }
+
+    #avatarInput {
+      display: none;
+    }
+
+    .profile-name h1 {
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+
+    .profile-name p {
+      color: var(--text-gray);
+      font-size: 14px;
+    }
+
+    .bio {
+      margin-top: 18px;
+      color: var(--text-gray);
+      max-width: 700px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 15px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      background: #222;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 22px;
+      min-width: 130px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--primary-blue);
+      font-size: 22px;
+    }
+
+    .stat span {
+      color: var(--text-gray);
+      font-size: 13px;
+    }
+
+    .card-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .card-header h2 {
+      font-size: 19px;
+    }
+
+    .form {
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--text-gray);
+      font-size: 14px;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      background: #2d3436;
+      border: 1px solid var(--border-color);
+      color: var(--text-white);
+      border-radius: 10px;
+      padding: 13px;
+      outline: none;
+      resize: none;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--primary-purple);
+    }
+
+    textarea {
+      min-height: 100px;
+    }
+
+    .btn {
+      border: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+      width: fit-content;
+    }
+
+    .danger-card {
+      border-color: rgba(255, 71, 87, 0.4);
+    }
+
+    .danger-content {
+      padding: 22px;
+    }
+
+    .danger-content p {
+      color: var(--text-gray);
+      margin-bottom: 15px;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+    }
+
+    @media (max-width: 700px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links span {
+        display: none;
+      }
+
+      .avatar-area {
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="logo">
+      <span class="logo-icon"><i class="fas fa-code-branch"></i></span>
+      <span>Commita</span>
+    </div>
+
+    <nav class="nav-links">
+      <a href="feed.html"><i class="fas fa-home"></i> <span>Feed</span></a>
+      <a href="#"><i class="fas fa-users"></i> <span>Fóruns</span></a>
+      <a href="#" class="active"><i class="fas fa-user"></i> <span>Perfil</span></a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="profile-card">
+      <div class="cover"></div>
+
+      <div class="profile-info">
+        <div class="avatar-area">
+          <div class="avatar-wrapper">
+            <img id="avatarPreview" src="https://ui-avatars.com/api/?name=Seu+Nome&background=6c5ce7&color=fff" alt="Foto de perfil">
+
+            <label for="avatarInput" title="Trocar foto">
+              <i class="fas fa-camera"></i>
+            </label>
+
+            <input type="file" id="avatarInput" accept="image/*">
+          </div>
+
+          <div class="profile-name">
+            <h1 id="previewName">Seu Nome</h1>
+            <p id="previewUsername">@seuusuario</p>
+          </div>
+        </div>
+
+        <p class="bio" id="previewBio">
+          Estudante de ADS apaixonada por tecnologia, projetos colaborativos e desenvolvimento web.
+        </p>
+
+        <div class="stats">
+          <div class="stat">
+            <strong>0</strong>
+            <span>Posts</span>
+          </div>
+
+          <div class="stat">
+            <strong>0</strong>
+            <span>Projetos</span>
+          </div>
+
+          <div class="stat">
+            <strong>0</strong>
+            <span>Seguidores</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="edit-card">
+      <div class="card-header">
+        <h2><i class="fas fa-pen"></i> Editar Perfil</h2>
+      </div>
+
+      <form class="form" id="profileForm">
+        <div class="form-row">
+          <div class="field">
+            <label>Nome</label>
+            <input type="text" id="name" value="Seu Nome">
+          </div>
+
+          <div class="field">
+            <label>Usuário</label>
+            <input type="text" id="username" value="seuusuario">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>E-mail</label>
+            <input type="email" id="email" value="usuario@email.com">
+          </div>
+
+          <div class="field">
+            <label>Telefone</label>
+            <input type="text" id="phone" placeholder="(00) 00000-0000">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Bio</label>
+          <textarea id="bio">Estudante de ADS apaixonada por tecnologia, projetos colaborativos e desenvolvimento web.</textarea>
+        </div>
+
+        <button class="btn" type="submit">
+          <i class="fas fa-save"></i> Salvar Alterações
+        </button>
+      </form>
+    </section>
+
+    <section class="edit-card">
+      <div class="card-header">
+        <h2><i class="fas fa-lock"></i> Segurança</h2>
+      </div>
+
+      <form class="form" id="passwordForm">
+        <div class="form-row">
+          <div class="field">
+            <label>Nova senha</label>
+            <input type="password" id="password">
+          </div>
+
+          <div class="field">
+            <label>Confirmar senha</label>
+            <input type="password" id="confirmPassword">
+          </div>
+        </div>
+
+        <button class="btn" type="submit">
+          <i class="fas fa-key"></i> Alterar Senha
+        </button>
+      </form>
+    </section>
+
+    <section class="danger-card">
+      <div class="card-header">
+        <h2><i class="fas fa-triangle-exclamation"></i> Zona de Perigo</h2>
+      </div>
+
+      <div class="danger-content">
+        <p>Excluir sua conta removerá seu perfil, posts e comentários permanentemente.</p>
+
+        <button class="btn btn-danger" id="deleteAccount">
+          <i class="fas fa-trash"></i> Excluir Conta
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const avatarInput = document.getElementById("avatarInput");
+    const avatarPreview = document.getElementById("avatarPreview");
+
+    const nameInput = document.getElementById("name");
+    const usernameInput = document.getElementById("username");
+    const bioInput = document.getElementById("bio");
+
+    const previewName = document.getElementById("previewName");
+    const previewUsername = document.getElementById("previewUsername");
+    const previewBio = document.getElementById("previewBio");
+
+    avatarInput.addEventListener("change", () => {
+      const file = avatarInput.files[0];
+
+      if (file) {
+        avatarPreview.src = URL.createObjectURL(file);
+      }
+    });
+
+    document.getElementById("profileForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      previewName.textContent = nameInput.value;
+      previewUsername.textContent = "@" + usernameInput.value;
+      previewBio.textContent = bioInput.value;
+
+      alert("Perfil atualizado com sucesso!");
+    });
+
+    document.getElementById("passwordForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("As senhas não coincidem.");
+        return;
+      }
+
+      if (password.length < 6) {
+        alert("A senha precisa ter pelo menos 6 caracteres.");
+        return;
+      }
+
+      alert("Senha alterada com sucesso!");
+    });
+
+    document.getElementById("deleteAccount").addEventListener("click", () => {
+      const confirmDelete = confirm("Tem certeza que deseja excluir sua conta?");
+
+      if (confirmDelete) {
+        alert("Conta excluída. Depois conectamos isso ao backend.");
+      }
+    });
+  </script>
+</body>
+</html>

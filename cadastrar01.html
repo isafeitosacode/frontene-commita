@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cadastro</title>
+
+<style>
+
+/* ========================================
+   RESET
+======================================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#02081c;
+    overflow:hidden;
+    position:relative;
+}
+
+/* ========================================
+   FAIXA ROXA ESQUERDA
+======================================== */
+.left-bg{
+    position:fixed;
+    left:0;
+    top:0;
+
+    width:25%;
+    min-width:280px;
+    height:100vh;
+
+    background:#180046;
+
+    border-radius:0 0 40px 0;
+}
+
+/* ========================================
+   CÍRCULO DIREITO
+======================================== */
+.right-circle{
+    position:fixed;
+
+    right:-300px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:700px;
+    height:700px;
+
+    border-radius:50%;
+
+    border:90px solid #6757ff;
+
+    filter:drop-shadow(0 0 15px #0077ff);
+}
+
+/* ========================================
+   CONTAINER
+======================================== */
+.container{
+    width:min(1200px,90%);
+    min-height:100vh;
+
+    margin:auto;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+}
+
+/* ========================================
+   CARD
+======================================== */
+.card{
+    width:100%;
+    max-width:1100px;
+
+    min-height:610px;
+
+    background:#1f1f1f;
+
+    border-radius:8px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+}
+
+/* ========================================
+   STEPPER
+======================================== */
+.stepper{
+    position:absolute;
+
+    left:-180px;
+    top:50%;
+
+    transform:translateY(-50%);
+}
+
+/* Linha */
+.stepper::before{
+    content:"";
+
+    position:absolute;
+
+    left:174px;
+    top:50px;
+
+    width:4px;
+    height:120px;
+
+    background:#8c00ff;
+}
+
+/* ========================================
+   PASSOS
+======================================== */
+.step{
+    display:flex;
+    align-items:center;
+
+    margin-bottom:50px;
+}
+
+.step span{
+    width:140px;
+
+    text-align:right;
+
+    color:#d5d5d5;
+
+    margin-right:12px;
+}
+
+/* ========================================
+   CÍRCULOS
+======================================== */
+.circle{
+    width:70px;
+    height:70px;
+
+    border-radius:50%;
+
+    background:#ececec;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:30px;
+    color:#555;
+}
+
+.active{
+    border:5px solid #6257ff;
+}
+
+/* ========================================
+   FORM
+======================================== */
+.form-area{
+    width:min(560px,85%);
+    margin:auto;
+}
+
+.form-group{
+    margin-bottom:25px;
+}
+
+.form-group label{
+    display:block;
+
+    color:#d8d8d8;
+
+    margin-bottom:8px;
+
+    font-size:18px;
+}
+
+.form-group input{
+    width:100%;
+    height:50px;
+
+    border:none;
+    outline:none;
+
+    border-radius:8px;
+
+    background:#ececec;
+
+    padding:0 15px;
+
+    font-size:16px;
+}
+
+/* ========================================
+   ERRO
+======================================== */
+.erro{
+    display:none;
+
+    margin-bottom:20px;
+
+    padding:12px;
+
+    border-radius:6px;
+
+    background:#a11515;
+
+    color:white;
+}
+
+/* ========================================
+   BOTÃO
+======================================== */
+.btn-area{
+    display:flex;
+    justify-content:flex-end;
+}
+
+button{
+    width:140px;
+    height:45px;
+
+    border:none;
+
+    border-radius:5px;
+
+    background:#4f18ff;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:600;
+}
+
+button:hover{
+    background:#3d0fe0;
+}
+
+/* ========================================
+   RESPONSIVO
+======================================== */
+@media(max-width:900px){
+
+    .stepper{
+        display:none;
+    }
+
+    .card{
+        min-height:auto;
+        padding:40px 0;
+    }
+
+    .left-bg{
+        width:180px;
+    }
+
+    .right-circle{
+        width:500px;
+        height:500px;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ========================================
+     FUNDO
+======================================== -->
+<div class="left-bg"></div>
+<div class="right-circle"></div>
+
+<!-- ========================================
+     CONTAINER
+======================================== -->
+<div class="container">
+
+    <!-- ====================================
+         CARD
+    ===================================== -->
+    <div class="card">
+
+        <!-- ====================================
+             STEPPER
+        ===================================== -->
+        <div class="stepper">
+
+            <div class="step">
+                <span>Dados Pessoais</span>
+                <div class="circle active">1</div>
+            </div>
+
+            <div class="step">
+                <span>Dados Cadastrais</span>
+                <div class="circle">2</div>
+            </div>
+
+        </div>
+
+        <!-- ====================================
+             FORMULÁRIO
+        ===================================== -->
+        <div class="form-area">
+
+            <div class="erro" id="erro"></div>
+
+            <form id="formCadastro">
+
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="nome">
+                </div>
+
+                <div class="form-group">
+                    <label>@ Usuário</label>
+                    <input type="text" id="usuario">
+                </div>
+
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="email">
+                </div>
+
+                <div class="form-group">
+                    <label>Confirme seu E-mail</label>
+                    <input type="email" id="confirmar">
+                </div>
+
+                <div class="btn-area">
+                    <a href="login.html" style="color: #8f00ff; text-decoration: none; margin-right: 10px;">Já tem conta?</a>
+                    <button type="submit">
+                        PRÓXIMO
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* ========================================
+   FORM
+======================================== */
+const form = document.getElementById("formCadastro");
+const erro = document.getElementById("erro");
+
+/* ========================================
+   VALIDAÇÃO
+======================================== */
+form.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const nome = document.getElementById("nome").value.trim();
+    const usuario = document.getElementById("usuario").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const confirmar = document.getElementById("confirmar").value.trim();
+
+    erro.style.display = "none";
+
+    if(!nome || !usuario || !email || !confirmar){
+
+        erro.style.display = "block";
+        erro.textContent =
+        "Preencha todos os campos para continuar.";
+
+        return;
+    }
+
+    if(email !== confirmar){
+
+        erro.style.display = "block";
+        erro.textContent =
+        "Os e-mails informados não coincidem.";
+
+        return;
+    }
+
+    // Salvar dados no sessionStorage para usar na próxima página
+    sessionStorage.setItem('cadastro_nome', nome);
+    sessionStorage.setItem('cadastro_usuario', usuario);
+    sessionStorage.setItem('cadastro_email', email);
+
+    // Ir para próxima página de cadastro
+    window.location.href = "cadastrar02.html";
+
+});
+
+</script>
+
+</body>
+</html>

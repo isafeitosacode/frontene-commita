@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commita - Fóruns</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-purple: #6c5ce7;
+      --light-purple: #a29bfe;
+      --primary-blue: #00d2ff;
+      --dark-bg: #0f0f0f;
+      --card-bg: #1a1a1a;
+      --text-white: #ffffff;
+      --text-gray: #b2bec3;
+      --border-color: #2d3436;
+      --warning: #feca57;
+      --success: #2ed573;
+      --danger: #ff4757;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--text-white);
+    }
+
+    .navbar {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      font-size: 20px;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .search-bar {
+      background: #2d3436;
+      border-radius: 22px;
+      padding: 9px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      max-width: 420px;
+    }
+
+    .search-bar input {
+      background: none;
+      border: none;
+      outline: none;
+      color: white;
+      width: 100%;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-shrink: 0;
+    }
+
+    .nav-links a {
+      color: var(--text-gray);
+      text-decoration: none;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      font-size: 15px;
+      transition: .2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary-purple);
+    }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr 310px;
+      gap: 22px;
+      margin-top: 24px;
+      padding-bottom: 50px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(108, 92, 231, .25), rgba(0, 210, 255, .15));
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: var(--text-gray);
+      max-width: 720px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .filter-btn {
+      background: #222;
+      border: 1px solid var(--border-color);
+      color: var(--text-gray);
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--primary-purple);
+      color: white;
+      border-color: var(--primary-purple);
+    }
+
+    .forums-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .forum-card,
+    .side-card,
+    .topic-list {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .forum-card {
+      padding: 18px;
+      transition: .2s;
+      cursor: pointer;
+    }
+
+    .forum-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary-purple);
+      box-shadow: 0 10px 25px rgba(108, 92, 231, .12);
+    }
+
+    .forum-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .forum-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+    }
+
+    .forum-card h3 { font-size: 18px; }
+
+    .forum-card p {
+      color: var(--text-gray);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .forum-meta {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-gray);
+      font-size: 13px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 12px;
+    }
+
+    .forum-meta strong { color: var(--primary-blue); }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .side-card { padding: 18px; }
+
+    .side-card h3 {
+      font-size: 17px;
+      margin-bottom: 14px;
+    }
+
+    .side-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .create-btn {
+      width: 100%;
+      border: none;
+      background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+      color: white;
+      padding: 13px;
+      border-radius: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .create-btn:hover { transform: translateY(-2px); }
+
+    .create-btn.secondary {
+      background: #222;
+      border: 1px solid var(--primary-purple);
+      color: var(--light-purple);
+    }
+
+    .hot-topic,
+    .rank-user {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .hot-topic:last-child,
+    .rank-user:last-child { border-bottom: none; }
+
+    .hot-topic i {
+      color: var(--warning);
+      margin-top: 4px;
+    }
+
+    .hot-topic div span,
+    .rank-user div span {
+      display: block;
+      color: var(--text-gray);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .rank-number {
+      color: var(--primary-blue);
+      font-weight: bold;
+      width: 20px;
+    }
+
+    .topic-section {
+      margin-top: 0;
+      display: none;
+    }
+
+    .topic-section.active { display: block; }
+
+    .topic-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(108, 92, 231, .25), rgba(0, 210, 255, .15));
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .topic-header h2 { font-size: 23px; }
+
+    .back-btn {
+      background: #222;
+      border: 1px solid var(--border-color);
+      color: var(--text-white);
+      padding: 10px 13px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .topic-item {
+      padding: 18px;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .topic-item:hover { background: #202020; }
+    .topic-item:last-child { border-bottom: none; }
+
+    .topic-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .topic-title h4 { font-size: 16px; }
+
+    .badge {
+      background: rgba(108, 92, 231, .2);
+      color: var(--light-purple);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .topic-desc {
+      color: var(--text-gray);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .topic-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      color: var(--text-gray);
+      font-size: 13px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .75);
+      display: none;
+      place-items: center;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .modal-overlay.active { display: grid; }
+
+    .modal {
+      width: 100%;
+      max-width: 560px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: var(--text-gray);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .modal-form {
+      padding: 20px;
+      display: grid;
+      gap: 15px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--text-gray);
+      font-size: 14px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      background: #2d3436;
+      border: 1px solid var(--border-color);
+      color: var(--text-white);
+      border-radius: 10px;
+      padding: 12px;
+      outline: none;
+      resize: none;
+    }
+
+    .field textarea { min-height: 110px; }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus { border-color: var(--primary-purple); }
+
+    .submit-btn {
+      border: none;
+      background: linear-gradient(45deg, var(--primary-purple), var(--primary-blue));
+      color: white;
+      padding: 13px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .empty-message {
+      color: var(--text-gray);
+      text-align: center;
+      padding: 22px;
+    }
+
+    @media (max-width: 950px) {
+      .main-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      .forums-grid { grid-template-columns: 1fr; }
+      .search-bar { display: none; }
+      .nav-links span { display: none; }
+      .hero h1 { font-size: 23px; }
+      .topic-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="container">
+      <div class="logo">
+        <span class="logo-icon"><i class="fas fa-code-branch"></i></span>
+        <span class="logo-text">Commita</span>
+      </div>
+
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input id="searchInput" type="text" placeholder="Buscar fórum ou tópico...">
+      </div>
+
+      <nav class="nav-links">
+        <a href="feed.html"><i class="fas fa-home"></i> <span>Feed</span></a>
+        <a href="forums.html" class="active"><i class="fas fa-users"></i> <span>Fóruns</span></a>
+        <a href="profile.html"><i class="fas fa-user"></i> <span>Perfil</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-layout">
+    <section>
+      <div id="forumsView">
+        <section class="hero">
+          <h1>Fóruns da Comunidade</h1>
+          <p>Escolha um assunto para tirar dúvidas, compartilhar soluções e conversar com outras pessoas da área de tecnologia.</p>
+
+          <div class="filters">
+            <button class="filter-btn active" data-filter="todos">Todos</button>
+            <button class="filter-btn" data-filter="programacao">Programação</button>
+            <button class="filter-btn" data-filter="desenvolvimento">Desenvolvimento</button>
+            <button class="filter-btn" data-filter="dados">Dados</button>
+            <button class="filter-btn" data-filter="carreira">Carreira</button>
+            <button class="filter-btn" data-filter="outros">Outros</button>
+          </div>
+        </section>
+
+        <section class="forums-grid" id="forumsGrid"></section>
+      </div>
+
+      <section class="topic-section" id="topicView">
+        <div class="topic-header">
+          <div>
+            <h2 id="topicForumTitle">Fórum</h2>
+            <p id="topicForumDesc" style="color: var(--text-gray);"></p>
+          </div>
+
+          <button class="back-btn" id="backToForums">
+            <i class="fas fa-arrow-left"></i> Voltar
+          </button>
+        </div>
+
+        <div class="topic-list" id="topicList"></div>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <div class="side-card">
+        <div class="side-actions">
+          <button class="create-btn secondary" id="openForumModal">
+            <i class="fas fa-folder-plus"></i> Criar Fórum
+          </button>
+
+          <button class="create-btn" id="openTopicModal">
+            <i class="fas fa-plus"></i> Criar Tópico
+          </button>
+        </div>
+      </div>
+
+ 
+     
+
+
+  <div class="modal-overlay" id="topicModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Criar novo tópico</h3>
+        <button class="close-modal" id="closeTopicModal"><i class="fas fa-times"></i></button>
+      </div>
+
+      <form class="modal-form" id="topicForm">
+        <div class="field">
+          <label>Fórum</label>
+          <select id="forumSelect" required></select>
+        </div>
+
+        <div class="field">
+          <label>Título da dúvida</label>
+          <input id="topicTitle" type="text" placeholder="Ex: Como resolver erro no Java?" required>
+        </div>
+
+        <div class="field">
+          <label>Descrição</label>
+          <textarea id="topicDescription" placeholder="Explique sua dúvida com detalhes..." required></textarea>
+        </div>
+
+        <div class="field">
+          <label>Tags</label>
+          <input id="topicTags" type="text" placeholder="Ex: Java, POO, Erro">
+        </div>
+
+        <button class="submit-btn" type="submit">Publicar tópico</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="forumModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Criar novo fórum</h3>
+        <button class="close-modal" id="closeForumModal"><i class="fas fa-times"></i></button>
+      </div>
+
+      <form class="modal-form" id="forumForm">
+        <div class="field">
+          <label>Nome do fórum</label>
+          <input id="forumName" type="text" placeholder="Ex: Inteligência Artificial" required>
+        </div>
+
+        <div class="field">
+          <label>Descrição</label>
+          <textarea id="forumDescription" placeholder="Descreva o objetivo do fórum..." required></textarea>
+        </div>
+
+        <div class="field">
+          <label>Categoria</label>
+          <select id="forumCategory" required>
+            <option value="programacao">Programação</option>
+            <option value="desenvolvimento">Desenvolvimento</option>
+            <option value="dados">Dados</option>
+            <option value="carreira">Carreira</option>
+            <option value="outros">Outros</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Ícone</label>
+          <select id="forumIcon" required>
+            <option value="fas fa-code">Código</option>
+            <option value="fas fa-robot">Inteligência Artificial</option>
+            <option value="fas fa-mobile-screen-button">Mobile</option>
+            <option value="fas fa-database">Banco de Dados</option>
+            <option value="fab fa-github">GitHub</option>
+            <option value="fas fa-palette">Design</option>
+            <option value="fas fa-shield-halved">Segurança</option>
+            <option value="fas fa-briefcase">Carreira</option>
+          </select>
+        </div>
+
+        <button class="submit-btn" type="submit">Criar fórum</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const forums = [
+      { id: "java", name: "Java", icon: "fab fa-java", category: "programacao", description: "POO, Spring Boot, erros, exercícios e projetos em Java.", topics: 128, active: 32 },
+      { id: "python", name: "Python", icon: "fab fa-python", category: "programacao", description: "Scripts, APIs, automações, Flask, FastAPI e dúvidas gerais.", topics: 96, active: 24 },
+      { id: "javascript", name: "JavaScript", icon: "fab fa-js", category: "programacao", description: "DOM, fetch, React, Node.js, erros no navegador e projetos web.", topics: 154, active: 41 },
+      { id: "mobile", name: "Mobile", icon: "fas fa-mobile-screen-button", category: "desenvolvimento", description: "Android, Flutter, React Native e desenvolvimento mobile.", topics: 74, active: 18 },
+      { id: "banco", name: "Banco de Dados", icon: "fas fa-database", category: "dados", description: "SQL, SQLite, MySQL, PostgreSQL, modelagem e consultas.", topics: 112, active: 28 },
+      { id: "frontend", name: "Front-end", icon: "fas fa-laptop-code", category: "desenvolvimento", description: "HTML, CSS, responsividade, interfaces, UX e integração com API.", topics: 139, active: 35 },
+      { id: "backend", name: "Back-end", icon: "fas fa-server", category: "desenvolvimento", description: "APIs, autenticação, rotas, servidor, segurança e arquitetura.", topics: 88, active: 21 },
+      { id: "github", name: "Git e GitHub", icon: "fab fa-github", category: "desenvolvimento", description: "Commits, branches, pull requests, GitHub Pages e colaboração.", topics: 65, active: 15 },
+      { id: "projetos", name: "Projetos Acadêmicos", icon: "fas fa-diagram-project", category: "carreira", description: "Ideias de TCC, trabalhos, documentação e projetos em grupo.", topics: 82, active: 19 },
+      { id: "carreira", name: "Carreira e Estágio", icon: "fas fa-briefcase", category: "carreira", description: "Currículo, vagas, portfólio, LinkedIn e entrevistas técnicas.", topics: 57, active: 12 }
+    ];
+
+    const topics = {
+      java: [
+        { title: "Como resolver NullPointerException?", desc: "Estou tentando acessar um objeto, mas aparece esse erro no console.", author: "Ana Júlia", answers: 8, time: "há 2h", tags: ["Java", "POO", "Erro"] },
+        { title: "Diferença entre classe abstrata e interface", desc: "Ainda fico confusa sobre quando usar cada uma.", author: "Marina", answers: 5, time: "há 5h", tags: ["Java", "POO"] }
+      ],
+      python: [
+        { title: "Como criar uma API com FastAPI?", desc: "Quero conectar meu frontend HTML com backend em Python.", author: "Isadora", answers: 12, time: "há 1h", tags: ["Python", "FastAPI", "API"] }
+      ],
+      javascript: [
+        { title: "Erro de CORS usando fetch", desc: "Meu frontend não consegue acessar minha API local.", author: "Gabriel Lima", answers: 15, time: "há 3h", tags: ["JS", "Fetch", "CORS"] }
+      ],
+      mobile: [],
+      banco: [
+        { title: "SQLite precisa instalar separado?", desc: "Estou usando PHP e queria entender como o SQLite funciona.", author: "Lara", answers: 9, time: "há 4h", tags: ["SQLite", "PHP"] }
+      ],
+      frontend: [
+        { title: "Como deixar meu feed responsivo?", desc: "No celular as colunas quebram e queria melhorar o layout.", author: "Clara Melo", answers: 6, time: "há 1d", tags: ["CSS", "Responsivo"] }
+      ],
+      backend: [],
+      github: [],
+      projetos: [
+        { title: "Ideias para projeto final de ADS", desc: "Queria algo que envolvesse rede social, login e banco de dados.", author: "Bianca", answers: 22, time: "há 2d", tags: ["TCC", "ADS", "Projeto"] }
+      ],
+      carreira: []
+    };
+
+    const forumsGrid = document.getElementById("forumsGrid");
+    const forumSelect = document.getElementById("forumSelect");
+    const searchInput = document.getElementById("searchInput");
+    const filters = document.querySelectorAll(".filter-btn");
+
+    const forumsView = document.getElementById("forumsView");
+    const topicView = document.getElementById("topicView");
+    const topicForumTitle = document.getElementById("topicForumTitle");
+    const topicForumDesc = document.getElementById("topicForumDesc");
+    const topicList = document.getElementById("topicList");
+
+    const topicModal = document.getElementById("topicModal");
+    const forumModal = document.getElementById("forumModal");
+
+    let currentFilter = "todos";
+    let currentForumId = null;
+
+    function normalizeId(text) {
+      return text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "") + "-" + Date.now();
+    }
+
+    function renderForums() {
+      const search = searchInput.value.toLowerCase();
+
+      const filteredForums = forums.filter(forum => {
+        const matchesFilter = currentFilter === "todos" || forum.category === currentFilter;
+        const matchesSearch =
+          forum.name.toLowerCase().includes(search) ||
+          forum.description.toLowerCase().includes(search);
+
+        return matchesFilter && matchesSearch;
+      });
+
+      forumsGrid.innerHTML = "";
+
+      if (filteredForums.length === 0) {
+        forumsGrid.innerHTML = `<p class="empty-message">Nenhum fórum encontrado.</p>`;
+        return;
+      }
+
+      filteredForums.forEach(forum => {
+        const card = document.createElement("article");
+        card.className = "forum-card";
+
+        card.innerHTML = `
+          <div class="forum-top">
+            <div class="forum-icon"><i class="${forum.icon}"></i></div>
+            <div>
+              <h3>${forum.name}</h3>
+              <small style="color: var(--text-gray);">Fórum oficial</small>
+            </div>
+          </div>
+
+          <p>${forum.description}</p>
+
+          <div class="forum-meta">
+            <span><strong>${forum.topics}</strong> tópicos</span>
+            <span><strong>${forum.active}</strong> ativos</span>
+          </div>
+        `;
+
+        card.addEventListener("click", () => openForum(forum.id));
+        forumsGrid.appendChild(card);
+      });
+    }
+
+    function renderForumSelect() {
+      forumSelect.innerHTML = "";
+
+      forums.forEach(forum => {
+        const option = document.createElement("option");
+        option.value = forum.id;
+        option.textContent = forum.name;
+        forumSelect.appendChild(option);
+      });
+    }
+
+    function openForum(forumId) {
+      currentForumId = forumId;
+
+      const forum = forums.find(item => item.id === forumId);
+      const forumTopics = topics[forumId] || [];
+
+      topicForumTitle.textContent = forum.name;
+      topicForumDesc.textContent = forum.description;
+
+      forumsView.style.display = "none";
+      topicView.classList.add("active");
+
+      renderTopics(forumTopics);
+    }
+
+    function renderTopics(forumTopics) {
+      topicList.innerHTML = "";
+
+      if (forumTopics.length === 0) {
+        topicList.innerHTML = `
+          <p class="empty-message">
+            Ainda não existem tópicos aqui. Seja a primeira pessoa a criar uma dúvida.
+          </p>
+        `;
+        return;
+      }
+
+      forumTopics.forEach(topic => {
+        const item = document.createElement("article");
+        item.className = "topic-item";
+
+        item.innerHTML = `
+          <div class="topic-title">
+            <h4>${topic.title}</h4>
+            <span class="badge">${topic.answers} respostas</span>
+          </div>
+
+          <p class="topic-desc">${topic.desc}</p>
+
+          <div class="topic-info">
+            <span><i class="fas fa-user"></i> ${topic.author}</span>
+            <span><i class="fas fa-clock"></i> ${topic.time}</span>
+            <span><i class="fas fa-tags"></i> ${topic.tags.join(", ")}</span>
+          </div>
+        `;
+
+        topicList.appendChild(item);
+      });
+    }
+
+    function closeAllModals() {
+      topicModal.classList.remove("active");
+      forumModal.classList.remove("active");
+    }
+
+    document.getElementById("backToForums").addEventListener("click", () => {
+      topicView.classList.remove("active");
+      forumsView.style.display = "block";
+      currentForumId = null;
+    });
+
+    filters.forEach(button => {
+      button.addEventListener("click", () => {
+        filters.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+        currentFilter = button.dataset.filter;
+        renderForums();
+      });
+    });
+
+    searchInput.addEventListener("input", renderForums);
+
+    document.getElementById("openTopicModal").addEventListener("click", () => {
+      topicModal.classList.add("active");
+      if (currentForumId) forumSelect.value = currentForumId;
+    });
+
+    document.getElementById("openForumModal").addEventListener("click", () => {
+      forumModal.classList.add("active");
+    });
+
+    document.getElementById("closeTopicModal").addEventListener("click", closeAllModals);
+    document.getElementById("closeForumModal").addEventListener("click", closeAllModals);
+
+    topicModal.addEventListener("click", event => {
+      if (event.target === topicModal) closeAllModals();
+    });
+
+    forumModal.addEventListener("click", event => {
+      if (event.target === forumModal) closeAllModals();
+    });
+
+    document.getElementById("topicForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const forumId = forumSelect.value;
+      const title = document.getElementById("topicTitle").value;
+      const desc = document.getElementById("topicDescription").value;
+      const tagsValue = document.getElementById("topicTags").value;
+
+      const newTopic = {
+        title,
+        desc,
+        author: "Você",
+        answers: 0,
+        time: "agora",
+        tags: tagsValue ? tagsValue.split(",").map(tag => tag.trim()) : ["Geral"]
+      };
+
+      if (!topics[forumId]) topics[forumId] = [];
+      topics[forumId].unshift(newTopic);
+
+      const forum = forums.find(item => item.id === forumId);
+      if (forum) {
+        forum.topics += 1;
+        forum.active += 1;
+      }
+
+      closeAllModals();
+      event.target.reset();
+      renderForums();
+      renderForumSelect();
+      openForum(forumId);
+
+      alert("Tópico criado com sucesso!");
+    });
+
+    document.getElementById("forumForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const name = document.getElementById("forumName").value;
+      const description = document.getElementById("forumDescription").value;
+      const category = document.getElementById("forumCategory").value;
+      const icon = document.getElementById("forumIcon").value;
+      const id = normalizeId(name);
+
+      const newForum = {
+        id,
+        name,
+        icon,
+        category,
+        description,
+        topics: 0,
+        active: 0
+      };
+
+      forums.unshift(newForum);
+      topics[id] = [];
+
+      closeAllModals();
+      event.target.reset();
+      renderForums();
+      renderForumSelect();
+      openForum(id);
+
+      alert("Fórum criado com sucesso!");
+    });
+
+    renderForums();
+    renderForumSelect();
+  </script>
+</body>
+</html>

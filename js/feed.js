@@ -236,7 +236,7 @@ function renderPostsOnScreen(posts) {
                         <div class="post-attachments">
                             ${post.arquivos.map(arquivo => {
                                 if (arquivo.tipo && arquivo.tipo.startsWith('image/')) {
-                                    return `<img src="${API_URL}${arquivo.url}" alt="${arquivo.nome}" class="attachment-image">`;
+                                    return `<img src=${API_URL}${arquivo.url}" alt="${arquivo.nome}" class="attachment-image">`;
                                 } else if (arquivo.tipo && arquivo.tipo.startsWith('video/')) {
                                     return `<video controls class="attachment-video">
                                                 <source src="${API_URL}${arquivo.url}" type="${arquivo.tipo}">
@@ -314,7 +314,7 @@ async function createNewPost(texto) {
     }
 
     try {
-        const response = await fetch('${API_URL}/api/posts', {
+        const response = await fetch(`${API_URL}/api/posts`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`

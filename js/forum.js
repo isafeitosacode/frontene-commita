@@ -41,7 +41,7 @@ window.addEventListener('load', () => {
 
 async function fetchForums() {
     try {
-        const response = await fetch('${API_URL}/api/forums', {
+        const response = await fetch(`${API_URL}/api/forums`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -65,7 +65,7 @@ document.getElementById("forumForm").addEventListener("submit", async (event) =>
     const icone = document.getElementById("forumIcon").value;
 
     try {
-        const response = await fetch('${API_URL}/api/forums', {
+        const response = await fetch(`${API_URL}/api/forums`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ document.getElementById("topicForm").addEventListener("submit", async (event) =>
     const conteudo = document.getElementById("topicDescription").value;
     
     try {
-        const response = await fetch('${API_URL}/api/posts', {
+        const response = await fetch(`${API_URL}/api/posts`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

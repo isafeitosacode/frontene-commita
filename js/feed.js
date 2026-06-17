@@ -160,7 +160,7 @@ function renderFeedHeader(modo) {
 
 async function fetchPosts(modo) {
     try {
-        const response = await fetch('${API_URL}/api/posts', {
+        const response = await fetch(`${API_URL}/api/posts`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -373,7 +373,7 @@ async function handleComment(postId, texto) {
 
 async function fetchUserStats() {
     try {
-        const response = await fetch('${API_URL}/api/users/stats', {
+        const response = await fetch(`${API_URL}/api/users/stats`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (response.ok) {
@@ -388,7 +388,7 @@ async function fetchUserStats() {
 
 async function fetchRanking() {
     try {
-        const response = await fetch('${API_URL}/api/users/ranking', {
+        const response = await fetch(`${API_URL}/api/users/ranking`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (response.ok) {
@@ -418,7 +418,7 @@ async function fetchRanking() {
 // NOVA FUNÇÃO: Busca 3 fóruns do backend para sugerir na lateral direita
 async function fetchSuggestedForums() {
     try {
-        const response = await fetch('${API_URL}/api/forums', {
+        const response = await fetch(`${API_URL}/api/forums`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (response.ok) {

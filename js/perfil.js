@@ -30,7 +30,7 @@ window.addEventListener('load', () => {
 // Busca os dados reais do usuário logado no Node.js
 async function fetchUserData() {
     try {
-        const response = await fetch('${API_URL}/api/users/profile', {
+        const response = await fetch(`${API_URL}/api/users/profile`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -92,7 +92,7 @@ document.getElementById("profileForm").addEventListener("submit", async (event) 
     }
 
     try {
-        const response = await fetch('${API_URL}/api/users/profile', {
+        const response = await fetch(`${API_URL}/api/users/profile`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ document.getElementById("passwordForm").addEventListener("submit", async (event)
     }
 
     try {
-        const response = await fetch('${API_URL}/api/users/password', {
+        const response = await fetch(`${API_URL}/api/users/password`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ document.getElementById("deleteAccount").addEventListener("click", async () => {
 
     if (confirmDelete) {
         try {
-            const response = await fetch('${API_URL}/api/users/profile', {
+            const response = await fetch(`${API_URL}/api/users/profile`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -199,7 +199,7 @@ document.getElementById("deleteAccount").addEventListener("click", async () => {
 // Busca as Contribuições Reais do Usuário
 async function fetchUserStats() {
     try {
-        const response = await fetch('${API_URL}/api/users/stats', {
+        const response = await fetch(`${API_URL}/api/users/stats`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (response.ok) {
